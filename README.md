@@ -64,13 +64,20 @@ forge test
 - A mock registry (`test/mocks/MockAgentIdRegistry.sol`) stands in for the
   real Agent ID registry in tests — the contract only calls `balanceOf`.
 
-## Deploy (NOT done yet — blocked on funding)
+## Deploy (DONE — live on BNB Chain)
 
-```bash
-export PRIVATE_KEY=<deployer key>   # never commit this
-forge script script/Deploy.s.sol --rpc-url https://bsc-dataseed.binance.org \
-    --broadcast --verify --etherscan-api-key <BscScan key> -vvvv
-```
+Deployed 2026-11-19 14:55 WIB via the Arachnid deterministic-deployment-proxy
+(CREATE2, salt 0):
+
+- Contract: `0x8A1DC3632fbf543b99092ba0420d128eFa7cAa39`
+- Deploy tx: `0x0d3f6d4fdf48f3aa6ca4c0589650962ea787ea4e5b31fd3bc8bf9003b3f7bb5e`
+  (block 134,466,919; 1,392,994 gas @ 0.06397 gwei = 0.0000891 BNB fee)
+- Owner: agent wallet `0x7b58acabda6c8ba6ed814bcb768d61bcc56fcd16`
+- Source verified: Sourcify EXACT MATCH (creation + runtime),
+  verified 2026-11-19 07:57:57 UTC
+- Test mint: token #1 minted to the agent wallet 2026-11-19 14:59 WIB,
+  tx `0xc3264657af6f24ea0f3c19c90c52d180cc5a5c0cb5e8489600117bb19665ea12`
+  (105,136 gas @ 0.105955123 gwei = 0.0000111 BNB fee)
 
 Measured deployment gas (local anvil, real broadcast): **2,525,042 gas**.
 Mint gas (local anvil, real broadcast): **105,193 gas**.
@@ -83,16 +90,21 @@ Mint gas (local anvil, real broadcast): **105,193 gas**.
 | 1 gwei | 0.00252504 BNB | 0.00010519 BNB |
 | 3 gwei | 0.00757513 BNB | 0.00031558 BNB |
 
-The agent wallet currently holds ~0.00016552 BNB. At a realistic BSC gas
-price (≥ 0.1 gwei) that does **not** cover deployment — deployment is blocked
-until the deployer is funded (recommend ≥ 0.005 BNB: deploy at up to ~1 gwei
-+ `setBaseURI` + a test mint + buffer) and the deploy is approved in the
-Binance App. No transaction has been sent.
+Live mint page: https://muse.ai/s/agentgate-xcj6xa6xpojxzxm4/CrE1XrKUVo_xsXnvdM7xfQJyEI0dK1UYVBalItg0QbM
 
-After deploy: verify the source on BscScan (`--verify` above, or the
-BscScan "Verify & Publish" page with the flattened source), set the base URI
-to the hosted metadata, and update `CONTRACT_ADDRESS` in
-`frontend/app.js`.
+To redeploy from source (needs a funded deployer key):
+
+```bash
+export PRIVATE_KEY=<deployer key>   # never commit this
+forge script script/Deploy.s.sol --rpc-url https://bsc-dataseed.binance.org \
+    --broadcast --verify --etherscan-api-key <BscScan key> -vvvv
+```
+
+Note: the deploy script deploys directly; the live deployment above went
+through the deterministic proxy instead, because the deployer wallet is a
+Binance Agentic Wallet with no direct deploy command. The proxy route needs
+the `owner_` constructor parameter (see `src/AgentGate.sol`) so ownership
+lands on the deployer, not on the proxy.
 
 ## Frontend
 
@@ -127,11 +139,13 @@ Deadline: **2026-12-09 08:00 UTC (= 15:00 WIB)**.
 
 ### Eligibility checklist (honest status, 2026-11-19)
 
-- [ ] Deployed on BNB Chain — **NOT YET** (blocked on funding, see above)
-- [ ] Source verified + open-source on BscScan — **NOT YET** (after deploy)
+- [x] Deployed on BNB Chain — YES (0x8A1DC3632fbf543b99092ba0420d128eFa7cAa39,
+      2026-11-19 14:55 WIB)
+- [x] Source verified + open-source — YES (Sourcify EXACT MATCH;
+      this repo is public)
 - [x] Actively uses Agent ID — YES (access control via registry `balanceOf`)
 - [ ] Innovation Award eligibility (≥ 30 Agent ID addresses interacting
-      during the Submission Period) — **NOT YET** (needs deploy + distribution)
+      during the Submission Period) — IN PROGRESS (3/30 as of 2026-11-19)
 - [x] Safety red lines — PASS: no web QR login, no session storage, no
       bypass of user transaction confirmation, no unauthorized transfers,
       no unlimited approvals, no credential collection, no promised returns,
