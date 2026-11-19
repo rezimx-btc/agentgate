@@ -1,0 +1,9 @@
+# Foundry
+out/
+cache/
+broadcast/
+.env
+
+# Editor / OS
+.DS_Store
+*.swp
