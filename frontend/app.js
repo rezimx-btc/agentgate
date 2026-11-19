@@ -7,7 +7,7 @@
 "use strict";
 
 const AGENT_ID_REGISTRY = "0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F";
-// TODO after deploy: replace with the real AgentGate contract address on BSC (chain 56).
+// Deployed 2026-11-19: AgentGate contract on BSC (chain 56).
 const CONTRACT_ADDRESS = "0x8A1DC3632fbf543b99092ba0420d128eFa7cAa39";
 const BSC_CHAIN_ID_HEX = "0x38"; // 56
 const BSC_RPC_FALLBACK = "https://bsc-dataseed.binance.org";
