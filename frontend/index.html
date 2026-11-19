@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentGate — Free mint for Agent ID holders</title>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #1a1a1a; }
+  h1 { font-size: 1.6rem; }
+  .card { border: 1px solid #ddd; border-radius: 12px; padding: 1.25rem; margin: 1rem 0; }
+  button { font-size: 1rem; padding: .6rem 1.2rem; border-radius: 8px; border: 1px solid #222; background: #222; color: #fff; cursor: pointer; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button.secondary { background: #fff; color: #222; }
+  .ok { color: #0a7a2f; } .bad { color: #b00020; } .muted { color: #666; font-size: .9rem; }
+  code { background: #f2f2f2; padding: .1rem .3rem; border-radius: 4px; font-size: .9em; word-break: break-all; }
+  #log { white-space: pre-wrap; background: #f7f7f7; border-radius: 8px; padding: .75rem; font-size: .9rem; }
+</style>
+</head>
+<body>
+<h1>AgentGate</h1>
+<p>One free NFT, claimable only by Agent ID holders (SPACE ID Agent ID on BNB Chain).
+Minting is free — you only pay the BSC network gas for your own mint transaction.
+The contract accepts no BNB and holds no user funds.</p>
+
+<div class="card">
+  <p>Contract: <code id="contractAddr">NOT DEPLOYED YET</code></p>
+  <p>Agent ID registry: <code>0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F</code></p>
+  <p>Network: BNB Chain (chain id 56) &middot; Minted so far: <span id="mintedCount">…</span></p>
+  <p>
+    <button id="connectBtn">Connect wallet</button>
+    <button id="mintBtn" class="secondary" disabled>Mint my free AgentGate</button>
+  </p>
+  <p id="status" class="muted">Not connected. Use MetaMask or Binance Wallet (EIP-1193).</p>
+  <p id="txLine" class="muted"></p>
+</div>
+
+<div class="card">
+  <h2>How it works</h2>
+  <ol>
+    <li>Connect your wallet on BNB Chain.</li>
+    <li>The page reads <code>balanceOf(yourAddress)</code> on the Agent ID registry. If it is &gt; 0, you hold an Agent ID.</li>
+    <li>Click <b>Mint</b>. Your wallet asks you to confirm — the transaction only calls <code>mint()</code> on the AgentGate contract. No BNB is sent to the contract; you pay only network gas.</li>
+    <li>One mint per address. If you already minted, the button stays disabled.</li>
+  </ol>
+  <p class="muted">No login, no QR code, no session stored anywhere. This page is static — there is no backend server. It never asks for a seed phrase, private key, or pairing code. Never enter those anywhere.</p>
+</div>
+
+<pre id="log"></pre>
+<script src="app.js"></script>
+</body>
+</html>
